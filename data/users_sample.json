@@ -1,0 +1,3 @@
+{"_id":{"$oid":"5ff1e194b6a9d73a3a9f1052"},"active":true,"createdDate":{"$date":1609687444800},"lastLogin":{"$date":1609687537858},"role":"consumer","signUpSource":"Email","state":"WI"}
+{"_id":{"$oid":"5ff1e194b6a9d73a3a9f1052"},"active":true,"createdDate":{"$date":1609687444800},"lastLogin":{"$date":1609687537858},"role":"consumer","signUpSource":"Email","state":"WI"}
+{"_id":{"$oid":"5ff1e194b6a9d73a3a9f1052"},"active":true,"createdDate":{"$date":1609687444800},"lastLogin":{"$date":1609687537858},"role":"consumer","signUpSource":"Email","state":"WI"}
