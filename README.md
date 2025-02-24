@@ -44,7 +44,7 @@
         ![Data Model](https://github.com/mooney312/Fetch_Data_Analysis/blob/main/Fetch_Data_Model-Page-2.drawio.svg)
                
           
-  2. **Data Ingestion**.
+  3. **Data Ingestion**.
      
         - Ingesting the raw data:
            - Ingest users JSON into a dataframe and create a raw view "users_raw". 
@@ -55,10 +55,10 @@
            - Ingest brands JSON into a dataframe and create a flattened "brands" view. 
            - Ingest receipts JSON into a dataframe and create a flattened "receipts" and "receipts_item" views.
           
-  5. **Data Profiling and Data Quality**
+  4. **Data Profiling and Data Quality**
      
         - Evaluate for data quality issues such as null values, duplicates and other inconsistencies and missing values.
-        - Refer [Jupyter Notebook for the queries]()
+        - Refer [Jupyter Notebook for the queries](notebooks/Fetch_Data_Analysis_Final.ipynb)
            1. Formatting Issue:
                - User data JSON does not conform to a valid JSON syntax - unable to read JSON lines with line-delimited mode. 
                - Requires additional data clean up and enforcing to process line by line. 
@@ -79,10 +79,10 @@
                ![image](https://github.com/user-attachments/assets/f95c6b90-f103-4c54-b897-7af5d7b328b7)
 
     
-  7. **Business Questions**
+## Business Questions
 
-      **Question**
-   
+   **Questions**
+      
       1. What are the top 5 brands by receipts scanned for most recent month?
               - Use receipt Item table & brand table - brand name, receipts id, scanned date
               - Need to check if barcode and brandCode combo is unique or just barcode is required lookuo brand name. 
@@ -90,63 +90,59 @@
               - Use receipt Item table & brand table - brand name, receipts id, scanned date
               - Need to check if barcode and brandCode combo is unique or just barcode is required lookuo brand name.              
    
-      **Assessment**:
+   **Assessment**:
 
-         For the  most recent month and prior month, in this case the recent month is "2021-03" and prior month is "2021-02", the query returms no value or null value due to data quality issues in "barcode" column in receipts. Incorrect or invalid barcode values causing the `brands` table and `receipts_item` join to fail and returns no value. 
-         The below table shows the list of top brand barcodes based on receipts scanned. Please review the "barcodes" here - none of the bar codes are valid.
+   - For the  most recent month and prior month, in this case the recent month is "2021-03" and prior month is "2021-02", the query returms no value or null value due to data quality issues in "barcode" column in receipts. Incorrect or invalid barcode values causing the `brands` table and `receipts_item` join to fail and returns no value. 
+   - The below table shows the list of top brand barcodes based on receipts scanned. Please review the "barcodes" here - none of the bar codes are valid.
    
       ![image](https://github.com/user-attachments/assets/fcf6ccfc-bdeb-413a-9205-0fa1a2424180)
 
-      **Question**
+   **Questions**
 
-      3. When considering average spend from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
+         3. When considering average spend from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
           - Use receipt table - rewardsReceiptStatus and totalspent columns. 
-      4. When considering total number of items purchased from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
+         4. When considering total number of items purchased from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
           - Use receipt table - rewardsReceiptStatus and purchasedItemCount columns    
-      _Assmuption_: There is no status "Accepted", instead "FINISHED" statusis used as "accepted" status.
+         *Assmuption*: There is no status "Accepted", instead "FINISHED" statusis used as "accepted" status.
 
-      **Assessment**:
+   **Assessment**:
 
-      - Average spend for "FINISHED" status is greater than that of "REJECTED" status, 15.86046511627907 v/s 2.5441176470588234
-      - Total number of items purchased from each receipts for "FINISHED" status is greater than that of "REJECTED" status, 8184 v/s 173
+   - Average spend for "FINISHED" status is greater than that of "REJECTED" status, 15.86046511627907 v/s 2.5441176470588234
+   - Total number of items purchased from each receipts for "FINISHED" status is greater than that of "REJECTED" status, 8184 v/s 173
 
-      ![image](https://github.com/user-attachments/assets/1751807c-19db-4ed7-8df0-47c6b165bd48)
+   ![image](https://github.com/user-attachments/assets/1751807c-19db-4ed7-8df0-47c6b165bd48)
 
-      **Question**
+   **Questions**
 
-         5. Which brand has the most spend among users who were created within the past 6 months?
+      5. Which brand has the most spend among users who were created within the past 6 months?
              - Use receipt Item table, user table abd brand table - brand name, receipts id, user create date
-         6. Which brand has the most transactions among users who were created within the past 6 months?
+      6. Which brand has the most transactions among users who were created within the past 6 months?
              - Use receipt Item table, user table abd brand table - brand name, receipts id, user create date     
    
-      **Assessment**:
+   **Assessment**:
    
-         - Tostitos and Swanson are the top brand based on users spend among users who were created within the past 6 months (7527.79 vs 7187.14)
-         - Tostitos and Swanson are the tied at top based on most users transactions among users who were created within the past 6 months (11 each)
+   - Tostitos and Swanson are the top brand based on users spend among users who were created within the past 6 months (7527.79 vs 7187.14)
+   - Tostitos and Swanson are the tied at top based on most users transactions among users who were created within the past 6 months (11 each)
          
-         Top 5 brand based on users spend and users transactions are given below table.
-         ![image](https://github.com/user-attachments/assets/a9977e09-3528-421e-9e8c-1fafa6080a0b)
+   Top 5 brand based on users spend and users transactions are given below table.
+   ![image](https://github.com/user-attachments/assets/a9977e09-3528-421e-9e8c-1fafa6080a0b)
 
 
 
 ## Assumptions
-  - For the current application requirement, the source data both orders and invoices are static files.
+  - For the current application requirement, the source data users,brands anb receipts are static files.
   - No file format changes expected for the source filesv- the `orders` data is CSV format, `invoices` data is in JSON format.
   - No schema changes expected for both source data files.
-  - No requirement to perisist the data for future use. 
-  - Using Windows and enabling WSL 2 for running docker.
+  - For the current POC, no requirement to perisist the data for future use. 
 
 ## Improvements & Next Steps
   
   -  Ingesting the source data from realtime API or from a database or an automated process for production use.
   -  Persiting the data in database for reuability and making data available across teams and geographies.
-  -  Use `Docker-Compose.yml` to deal with persisting data, multiple services, shared volumes, environment variables, or networking.
   -  Use data visulization tool such as Tableau for more dashboard capabilities as data is persisted in database.
-  -  Change the base image to optimized Databricks image for better performance.
   -  Create purpose built dimension data models such as facts and dimensions or denormalised tables for better query and report performance.
 
 ## Reference Links
 
-  1. [Dockerfile](https://github.com/Lenin-Subramonian/data-engineering-ifco_test/blob/main/Docker/Dockerfile)
-  2. [Jupyter Notebook Git Link].(https://github.com/Lenin-Subramonian/data-engineering-ifco_test/blob/main/notebooks/IFCO_Data_Analysis.ipynb)
+  1. [Jupyter Notebook Git Link].(notebooks/Fetch_Data_Analysis_Final.ipynb)
      
