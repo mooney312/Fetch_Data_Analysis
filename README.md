@@ -1,41 +1,65 @@
 # Fetch Data Analysis
-## Problem Statement
 
+## What are the requirements?
 
-  What are the requirements?
-
-    Review unstructured JSON data and diagram a new structured relational data model
+   - Review the unstructured JSON data and diagram a new structured relational data model
         1. brands.json.gz
         2. users.json.gz
         3. [receipts.json.gz].https://fetch-hiring.s3.amazonaws.com/analytics-engineer/ineeddata-data-modeling/receipts.json.gz 
-    Generate a query that answers a predetermined business question
-    Generate a query to capture data quality issues against the new structured relational data model
-    Write a short email or Slack message to the business stakeholder
+  - Generate a query that answers a predetermined business questions:
+        1. What are the top 5 brands by receipts scanned for most recent month?
+        2. How does the ranking of the top 5 brands by receipts scanned for the recent month compare to the ranking for the previous month?
+        3. When considering average spend from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
+        4. When considering total number of items purchased from receipts with 'rewardsReceiptStatus’ of ‘Accepted’ or ‘Rejected’, which is greater?
+        5. Which brand has the most spend among users who were created within the past 6 months?
+        6. Which brand has the most transactions among users who were created within the past 6 months?
+
+  - Generate a query to capture data quality issues against the new structured relational data model
+  - Write a short email or Slack message to the business stakeholder
 
 
 
 ## Highlevel Solution & Approach
 
   1. **Data Infrastructure**
-        - Setup databricks runtime as the base image to process data using PySpark, Python and SQL.
-        - Set up python and java environment variables just in case. 
-        - Use Jupyter Notebook and data profiling and business queries.
+        - Setup the data infrastrure for processing the data and executing queries for the excercide:
+          -  Use databricks runtime as the base image to process data using PySpark, Python and SQL.
+          -  Set up python and java environment variables just in case. 
+          -  Use Jupyter Notebook and data profiling and business queries.
           
   2. **Data Model**.
-        - Analyze and create a data model
+        - Analyze the data and create a data model
+        - Data is read as pyspark dataframe, and create raw views/table for the source raw data (Optional)
+            1. users_raw
+            2. brands_raw
+            3. receipts_raw
+               
+        ![Data Model](https://github.com/mooney312/Fetch_Data_Analysis/blob/main/Fetch_Data_Model-Page-2.drawio.svg)
+
+        - Data is read as pyspark dataframe, and create flattened views/table for the data 
+            1. users
+            2. brands
+            3. receipts
+            4. receipt_item
+
+        ![Data Model](https://github.com/mooney312/Fetch_Data_Analysis/blob/main/Fetch_Data_Model-Page-2.drawio.svg)
+               
           
-  3. **Data Ingestion**.
-        - Ingest users JSON into a dataframe and create a "users" view. 
-        - Ingest brands JSON into a dataframe and create a "brands" view. 
-        - Ingest receipts JSON into a dataframe & create "receipts" and "receipts_item" views.
+  2. **Data Ingestion**.
+         Ingesting the raw data: 
+            - Ingest users JSON into a dataframe and create a raw view "users_raw". 
+            - Ingest brands JSON into a dataframe and create a raw view "brands_raw". 
+            - Ingest receipts JSON into a dataframe and create a raw view "receipts_raw".
+         Create flattened and de-normalized views for queries: 
+            - Ingest users JSON into a dataframe and create a flattened "users" view. 
+            - Ingest brands JSON into a dataframe and create a flattened "brands" view. 
+            - Ingest receipts JSON into a dataframe and create a flattened "receipts" and "receipts_item" views.
           
-  4. **Data Profiling**
+  5. **Data Profiling**
         -  Evaluate for data quality issues such as null values, duplicates and other inconsistencies and missing values.
     
-  5. **Query to answer business questions**
+  6. **Query to answer business questions**
 
-
-[Data Model] ([https://app.diagrams.net/?mode=github](https://github.com/mooney312/Fetch_Data_Analysis/blob/main/Fetch_Data_Model-Page-2.drawio.svg)
 
 
 ## Assumptions
